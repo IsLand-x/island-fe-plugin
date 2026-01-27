@@ -68,6 +68,25 @@ export function useReaction<T>(
 }
 ```
 
+## Important Constraints
+
+The callback functions passed to `useAutorun` and `useReaction` **must only consume MobX observables**.
+Do not access React state or props directly within these callbacks. Or the developer can makesure the clousure is desinated and is safe.
+
+```tsx
+// ✅ Correct: Only consume observables
+useAutorun(() => {
+  console.log(store.count)
+})
+
+// ❌ Wrong: Captures React state/props
+useAutorun(() => {
+  console.log(props.value) // Stale closure!
+})
+```
+
+If you need to react to React state changes, use `useEffect` instead of `useAutorun`.
+
 ## Example
 
 ### useAutorun

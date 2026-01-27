@@ -15,7 +15,7 @@ Establish a consistent directory hierarchy that separates project-level shared r
 ## Rules
 
 - **Project-level shared resources**: Place in `src/components/`, `src/utils/`, `src/hooks/`
-- **Global cross-domain stores**: Place in `src/global-store/` following [manage-component-scoped-state](./manage-component-scoped-state.md) practices for shared state like user info, permissions, and general config
+- **Global cross-domain stores**: Place in `src/global-store/` following the RootStore pattern from [separate-page-states-into-domain-stores](./separate-page-states-into-domain-stores.md) for shared state like user info, permissions, and general config
 - **Pages by domain**: Group pages under `src/pages/{domain}/` (e.g., `strategy/`, `function/`, `budget/`)
 - **Pages by type**: Within each domain, create subfolders for page types (e.g., `list/`, `detail/`, `ticket/`)
 - **Page self-contained**: Each page folder contains its own `index.tsx`, `stores/`, `components/`, `utils/`, `consts/`
@@ -79,7 +79,7 @@ src/
 
 ### Global Store Structure
 
-Global stores in `src/global-store/` follow the same RootStore pattern as page stores, using [manage-component-scoped-state](./manage-component-scoped-state.md) practices for shared cross-domain state.
+Global stores in `src/global-store/` follow the same RootStore pattern as page stores (see [separate-page-states-into-domain-stores](./separate-page-states-into-domain-stores.md) for the full pattern).
 
 ```tsx
 // src/global-store/root-store.ts
