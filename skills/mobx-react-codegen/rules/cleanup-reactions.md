@@ -1,0 +1,171 @@
+---
+title: Cleanup Reactions
+type: capability
+impact: HIGH
+impactDescription: always use useAutorun and useReaction hooks in React components
+tags: mobx, autorun, reaction, cleanup, hooks, useAutorun, useReaction
+---
+
+# Cleanup Reactions
+
+**Impact: HIGH** - always use `useAutorun` and `useReaction` hooks in React components
+
+In React components, never use `autorun` or `reaction` directly. Only use the custom hooks `useAutorun` and `useReaction` to ensure proper cleanup and prevent memory leaks.
+
+## Rules
+
+- **Only use custom hooks**: In React components, use only `useAutorun` and `useReaction`
+- **Provide hooks**: If these hooks don't exist in the project, add them to `src/hooks/mobx.ts`
+- **Never raw autorun/reaction**: Don't use `autorun` or `reaction` directly in components
+
+## Required Hooks
+
+Add these hooks to your project (e.g., `src/hooks/mobx.ts`):
+
+```tsx
+// src/hooks/mobx.ts
+import { useEffect } from 'react'
+import {
+  autorun,
+  reaction,
+  type AutorunOptions,
+  type ReactionOptions,
+  type IReactionDisposer,
+} from 'mobx'
+
+// Use the same options type as MobX autorun
+type AutorunEffect = Parameters<typeof autorun>[0]
+
+export function useAutorun(
+  fn: AutorunEffect,
+  options?: AutorunOptions
+): IReactionDisposer | void {
+  useEffect(() => {
+    const disposer = autorun(fn, options)
+    return () => disposer()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+}
+
+// Use the same parameter types as MobX reaction
+type ReactionExpression<T> = () => T
+type ReactionEffect<T> = (
+  value: T,
+  prevValue: T,
+  disposer: IReactionDisposer
+) => void
+
+export function useReaction<T>(
+  expression: ReactionExpression<T>,
+  effect: ReactionEffect<T>,
+  options?: ReactionOptions
+): IReactionDisposer | void {
+  useEffect(() => {
+    const disposer = reaction(expression, effect, options)
+    return () => disposer()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+}
+```
+
+## Example
+
+### useAutorun
+
+```tsx
+import { observer } from 'mobx-react-lite'
+import { useAutorun } from '@/hooks/mobx'
+
+const UserProfile = observer(() => {
+  const userStore = useUserStore()
+
+  useAutorun(() => {
+    console.log('Current user:', userStore.currentUser?.name)
+  })
+
+  return <div>{userStore.currentUser?.name}</div>
+})
+```
+
+### useReaction
+
+```tsx
+import { useReaction } from '@/hooks/mobx'
+
+const TodoList = observer(() => {
+  const todoStore = useTodoStore()
+
+  useReaction(
+    () => todoStore.completedCount,
+    (count, prevCount) => {
+      if (count > prevCount) {
+        toast.success(`Completed ${count - prevCount} more tasks!`)
+      }
+    },
+  )
+
+  return <div>Completed: {todoStore.completedCount}</div>
+})
+```
+
+## Do NOT Use
+
+```tsx
+// ❌ Never use autorun directly in component
+import { autorun } from 'mobx'
+
+const MyComponent = observer(() => {
+  const store = useStore()
+
+  // Wrong! Memory leak - no cleanup
+  autorun(() => {
+    console.log(store.value)
+  })
+
+  return <div />
+})
+
+// ❌ Never use reaction directly in component
+import { reaction } from 'mobx'
+
+const MyComponent = observer(() => {
+  const store = useStore()
+
+  // Wrong! Creates new reaction on every render
+  reaction(
+    () => store.value,
+    () => console.log('changed')
+  )
+
+  return <div />
+})
+
+// ❌ Never manually manage autorun in useEffect
+const MyComponent = observer(() => {
+  const store = useStore()
+
+  useEffect(() => {
+    const disposer = autorun(() => {
+      console.log(store.value)
+    })
+    return () => disposer()
+  }, [store])
+
+  return <div />
+})
+```
+
+## When to Use
+
+| Scenario | Recommendation |
+|----------|---------------|
+| React component needs autorun | Use `useAutorun` hook |
+| React component needs reaction | Use `useReaction` hook |
+| Raw autorun/reaction | Only in non-React code (stores, utils) |
+| Hooks don't exist | Add them to `src/hooks/mobx.ts` first |
+
+## Reference
+
+- [MobX Reactions](https://mobx.js.org/reactions.html)
+- [Autorun API](https://mobx.js.org/reactions.html#autorun)
+- [Reaction API](https://mobx.js.org/reactions.html#reaction)
