@@ -1,0 +1,9 @@
+{
+    "name": "island-fe",
+    "description": "IsLand personal claude-code plugin",
+    "version": "1.0.0",
+    "author": {
+        "name": "IsLand",
+        "email": "2447489898@qq.com"
+    }
+}
