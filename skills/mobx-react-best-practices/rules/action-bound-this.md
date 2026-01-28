@@ -96,12 +96,12 @@ class UserStore {
 
 ## When to Use
 
-| Scenario | Recommendation |
-|----------|---------------|
-| Class store with methods | Use `{ autoBind: true }` |
+| Scenario                    | Recommendation                    |
+| --------------------------- | --------------------------------- |
+| Class store with methods    | Use `{ autoBind: true }`          |
 | Need to destructure methods | Use `autoBind` or arrow functions |
-| Method as event handler | `autoBind` handles automatically |
-| Method passed to setTimeout | `autoBind` handles automatically |
+| Method as event handler     | `autoBind` handles automatically  |
+| Method passed to setTimeout | `autoBind` handles automatically  |
 
 ## Reference
 

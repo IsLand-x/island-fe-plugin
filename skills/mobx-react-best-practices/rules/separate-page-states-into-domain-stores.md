@@ -74,7 +74,10 @@ export class UserStore {
   }
 
   async loadCurrentUser() {
-    this.currentUser = await api.fetchCurrentUser()
+    const user = await api.fetchCurrentUser()
+    runInAction(() => {
+      this.currentUser = user
+    })
   }
 
   goToProfile = (userId: string) => { // should use arrow function to bind this.
@@ -232,13 +235,13 @@ class TodoStore {
 
 ## When to Use
 
-| Scenario | Recommendation |
-|----------|---------------|
-| Store needs external state like router/hooks | Access via `rootStore.depsStore` |
-| Store needs other stores | Access via `rootStore.xxxStore` |
-| Store initialization | Implement `async init()` method |
-| Init coordination | RootStore's `init` calls domain `init` |
-| Unit testing | Create `new RootStore(mockDepsStore)` |
+| Scenario                                     | Recommendation                         |
+| -------------------------------------------- | -------------------------------------- |
+| Store needs external state like router/hooks | Access via `rootStore.depsStore`       |
+| Store needs other stores                     | Access via `rootStore.xxxStore`        |
+| Store initialization                         | Implement `async init()` method        |
+| Init coordination                            | RootStore's `init` calls domain `init` |
+| Unit testing                                 | Create `new RootStore(mockDepsStore)`  |
 
 ## Reference
 

@@ -110,13 +110,13 @@ get normalizedTodos() {
 
 ## When to Use
 
-| Scenario | Recommendation |
-|----------|---------------|
-| Filtering/sorting lists | Use computed |
-| Calculating aggregates (sum, count) | Use computed |
-| Transforming data format | Use computed |
-| Simple property access | Access directly |
-| Side effects needed | Use reaction or autorun |
+| Scenario                            | Recommendation          |
+| ----------------------------------- | ----------------------- |
+| Filtering/sorting lists             | Use computed            |
+| Calculating aggregates (sum, count) | Use computed            |
+| Transforming data format            | Use computed            |
+| Simple property access              | Access directly         |
+| Side effects needed                 | Use reaction or autorun |
 
 ## Reference
 

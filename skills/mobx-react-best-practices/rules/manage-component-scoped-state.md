@@ -56,6 +56,6 @@ const Counter = () => {
 
 ## When to Use
 
-| Scenario | Recommendation |
-|----------|---------------|
+| Scenario            | Recommendation  |
+| ------------------- | --------------- |
 | Any component state | `useLocalStore` |

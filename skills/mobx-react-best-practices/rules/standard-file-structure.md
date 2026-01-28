@@ -125,12 +125,12 @@ export default RootStore
 
 **Key patterns for RootStore:**
 
-| Pattern | Implementation |
-|---------|---------------|
-| Shared user info | `this.rootStore.userStore.currentUser` |
-| Shared permissions | `this.rootStore.permissionStore.hasPermission('admin')` |
-| Shared config | `this.rootStore.configStore.apiBaseUrl` |
-| Cross-store actions | Call `rootStore.otherStore.action()` |
+| Pattern             | Implementation                                          |
+| ------------------- | ------------------------------------------------------- |
+| Shared user info    | `this.rootStore.userStore.currentUser`                  |
+| Shared permissions  | `this.rootStore.permissionStore.hasPermission('admin')` |
+| Shared config       | `this.rootStore.configStore.apiBaseUrl`                 |
+| Cross-store actions | Call `rootStore.otherStore.action()`                    |
 
 ## Do NOT Use
 
@@ -165,25 +165,25 @@ export default Layout
 
 ## Naming Conventions
 
-| Element | Convention | Example |
-| --------------- | --------------- | --------------- |
-| Component files | PascalCase + component name | `UserCard.tsx` |
-| Store files | PascalCase + Store suffix | `UserStore.ts` |
-| RootStore file | kebab-case | `root-store.ts` |
-| DepsStore file | kebab-case | `deps-store.ts` |
-| Component classes/functions | PascalCase | `const UserCard = ...` |
-| Store classes | PascalCase | `class UserStore {}` |
-| Props types | PascalCase + Props suffix | `UserCardProps` |
+| Element                     | Convention                  | Example                |
+| --------------------------- | --------------------------- | ---------------------- |
+| Component files             | PascalCase + component name | `UserCard.tsx`         |
+| Store files                 | kebab-case + store suffix   | `user-store.ts`        |
+| RootStore file              | kebab-case                  | `root-store.ts`        |
+| DepsStore file              | kebab-case                  | `deps-store.ts`        |
+| Component classes/functions | PascalCase                  | `const UserCard = ...` |
+| Store classes               | PascalCase                  | `class UserStore {}`   |
+| Props types                 | PascalCase + Props suffix   | `UserCardProps`        |
 
 ## When to Use
 
-| Scenario | Recommendation |
-| -------------- | -------------- |
-| Creating new component | Single default export + named Props type |
-| Creating new store | Single default export + named types |
-| Creating RootStore | Centralize all domain stores + coordinate init |
-| Cross-domain shared state | Access via `rootStore.xxxStore` |
-| Exporting utilities | Named exports allowed in utility files |
+| Scenario                  | Recommendation                                 |
+| ------------------------- | ---------------------------------------------- |
+| Creating new component    | Single default export + named Props type       |
+| Creating new store        | Single default export + named types            |
+| Creating RootStore        | Centralize all domain stores + coordinate init |
+| Cross-domain shared state | Access via `rootStore.xxxStore`                |
+| Exporting utilities       | Named exports allowed in utility files         |
 
 ## Migration Guide
 

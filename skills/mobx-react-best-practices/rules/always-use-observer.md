@@ -18,7 +18,7 @@ All components that read observable state must be wrapped in `observer` from `mo
 import { observer } from 'mobx-react-lite'
 
 export type TodoListProps = {
-    todoList: Todo[];
+    todos: Todo[];
 }
 
 const TodoList = observer<TodoListProps>((props) => {

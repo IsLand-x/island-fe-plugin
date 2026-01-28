@@ -3,19 +3,18 @@ title: Async Run In Action
 type: capability
 impact: HIGH
 impactDescription: properly handle async operations in MobX actions
-tags: mobx, async, runInAction, flow, generator, action
+tags: mobx, async, runInAction, generator, action
 ---
 
 # Async Run In Action
 
 **Impact: HIGH** - properly handle async operations in MobX actions
 
-When modifying observable state after an async operation (like an API call), wrap the state mutation in `runInAction` or use `flow` with generator functions to ensure changes are properly tracked.
+When modifying observable state after an async operation (like an API call), wrap the state mutation in `runInAction` to ensure changes are properly tracked.
 
 ## Rules
 
 - **After await**: Always wrap state mutations after `await` in `runInAction`
-- **Use flow**: Alternative approach using generator functions with `flow`
 - **autoBind**: Use `runInAction` when `autoBind: true` is enabled
 
 ## Example
@@ -96,15 +95,13 @@ async loadData() {
 
 ## When to Use
 
-| Scenario | Recommendation |
-|----------|---------------|
-| Async action with single mutation | `runInAction` after await |
-| Complex async flow with multiple steps | `flow` with generator |
-| Error handling needed | `runInAction` in catch block |
-| autoBind enabled | `runInAction` required after await |
+| Scenario                          | Recommendation                     |
+| --------------------------------- | ---------------------------------- |
+| Async action with single mutation | `runInAction` after await          |
+| Error handling needed             | `runInAction` in catch block       |
+| autoBind enabled                  | `runInAction` required after await |
 
 ## Reference
 
 - [MobX Async Actions](https://mobx.js.org/actions.html#asynchronous-actions)
 - [runInAction API](https://mobx.js.org/api.html#runinaction)
-- [flow API](https://mobx.js.org/api.html#flow)

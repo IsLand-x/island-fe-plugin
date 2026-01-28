@@ -176,12 +176,12 @@ const MyComponent = observer(() => {
 
 ## When to Use
 
-| Scenario | Recommendation |
-|----------|---------------|
-| React component needs autorun | Use `useAutorun` hook |
-| React component needs reaction | Use `useReaction` hook |
-| Raw autorun/reaction | Only in non-React code (stores, utils) |
-| Hooks don't exist | Add them to `src/hooks/mobx.ts` first |
+| Scenario                       | Recommendation                         |
+| ------------------------------ | -------------------------------------- |
+| React component needs autorun  | Use `useAutorun` hook                  |
+| React component needs reaction | Use `useReaction` hook                 |
+| Raw autorun/reaction           | Only in non-React code (stores, utils) |
+| Hooks don't exist              | Add them to `src/hooks/mobx.ts` first  |
 
 ## Reference
 

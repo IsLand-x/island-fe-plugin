@@ -298,31 +298,31 @@ src/
 
 ## Directory Conventions
 
-| Directory | Purpose | Example |
-| --------- | ------- | ------- |
-| `src/components/` | Project-level shared components | `CommonTable`, `SearchForm` |
-| `src/global-store/` | Global cross-domain stores (RootStore pattern) | `UserStore`, `PermissionStore` |
-| `src/hooks/` | Project-level shared hooks | `usePermission`, `useDebounce` |
-| `src/utils/` | Project-level shared utilities | `request.ts`, `format.ts` |
-| `src/pages/{Domain}/` | Business domain modules (PascalCase) | `Strategy/`, `Function/` |
-| `src/pages/{Domain}/{Page}/` | Specific page within domain (PascalCase) | `List/`, `Detail/`, `Ticket/` |
-| `{page}/stores/` | Page-level stores with RootStore pattern | `index.ts`, `root.ts`, domain stores |
-| `{page}/components/` | Page-specific components | `StrategyCard/`, `StrategyFilter/` |
-| `{page}/utils/` | Page-specific utilities | `formatStrategyData.ts` |
-| `{page}/consts/` | Page-specific constants | `STRATEGY_STATUS_MAP.ts` |
+| Directory                    | Purpose                                        | Example                              |
+| ---------------------------- | ---------------------------------------------- | ------------------------------------ |
+| `src/components/`            | Project-level shared components                | `CommonTable`, `SearchForm`          |
+| `src/global-store/`          | Global cross-domain stores (RootStore pattern) | `UserStore`, `PermissionStore`       |
+| `src/hooks/`                 | Project-level shared hooks                     | `usePermission`, `useDebounce`       |
+| `src/utils/`                 | Project-level shared utilities                 | `request.ts`, `format.ts`            |
+| `src/pages/{Domain}/`        | Business domain modules (PascalCase)           | `Strategy/`, `Function/`             |
+| `src/pages/{Domain}/{Page}/` | Specific page within domain (PascalCase)       | `List/`, `Detail/`, `Ticket/`        |
+| `{page}/stores/`             | Page-level stores with RootStore pattern       | `index.ts`, `root.ts`, domain stores |
+| `{page}/components/`         | Page-specific components                       | `StrategyCard/`, `StrategyFilter/`   |
+| `{page}/utils/`              | Page-specific utilities                        | `formatStrategyData.ts`              |
+| `{page}/consts/`             | Page-specific constants                        | `STRATEGY_STATUS_MAP.ts`             |
 
 ## Naming Conventions
 
-| Element | Convention | Example | Rationale |
-| --------- | ------- | ------- | --------- |
-| Page files | PascalCase | `StrategyListPage.tsx` | Match component name for imports |
-| Page components | PascalCase | `const StrategyListPage = ...` | React component convention |
-| Store files | kebab-case | `strategy-list-store.ts` | Consistent with non-component files |
-| Store classes | PascalCase + Store suffix | `class StrategyListStore {}` | Class naming convention |
-| Utility files | kebab-case | `strategy-utils.ts` | Consistent with non-component files |
-| Helper hooks | camelCase | `useStrategyListStore` | React hooks convention |
-| Domain folders | PascalCase | `Strategy/List/` | Match route/page URLs visually |
-| Barrel files | `index.ts` | `stores/index.ts` | Standard barrel export |
+| Element         | Convention                | Example                        | Rationale                           |
+| --------------- | ------------------------- | ------------------------------ | ----------------------------------- |
+| Page files      | PascalCase                | `StrategyListPage.tsx`         | Match component name for imports    |
+| Page components | PascalCase                | `const StrategyListPage = ...` | React component convention          |
+| Store files     | kebab-case                | `strategy-list-store.ts`       | Consistent with non-component files |
+| Store classes   | PascalCase + Store suffix | `class StrategyListStore {}`   | Class naming convention             |
+| Utility files   | kebab-case                | `strategy-utils.ts`            | Consistent with non-component files |
+| Helper hooks    | camelCase                 | `useStrategyListStore`         | React hooks convention              |
+| Domain folders  | PascalCase                | `Strategy/List/`               | Match route/page URLs visually      |
+| Barrel files    | `index.ts`                | `stores/index.ts`              | Standard barrel export              |
 
 ### Naming Rationale
 
@@ -338,14 +338,14 @@ src/
 
 ## When to Use
 
-| Scenario | Location |
-| --------- | -------- |
-| Component used by multiple pages | `src/components/` |
-| Component used only by one page | `pages/{Domain}/{Page}/components/` |
-| Store shared across domains (user, permission, config) | `src/global-store/` |
-| Store specific to one page | `pages/{Domain}/{Page}/stores/` |
-| Utility used by multiple pages | `src/utils/` |
-| Utility specific to one page | `pages/{Domain}/{Page}/utils/` |
+| Scenario                                               | Location                            |
+| ------------------------------------------------------ | ----------------------------------- |
+| Component used by multiple pages                       | `src/components/`                   |
+| Component used only by one page                        | `pages/{Domain}/{Page}/components/` |
+| Store shared across domains (user, permission, config) | `src/global-store/`                 |
+| Store specific to one page                             | `pages/{Domain}/{Page}/stores/`     |
+| Utility used by multiple pages                         | `src/utils/`                        |
+| Utility specific to one page                           | `pages/{Domain}/{Page}/utils/`      |
 
 ## Reference
 
