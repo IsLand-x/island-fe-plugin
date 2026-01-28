@@ -24,7 +24,7 @@ Add these hooks to your project (e.g., `src/hooks/mobx.ts`):
 
 ```tsx
 // src/hooks/mobx.ts
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import {
   autorun,
   reaction,
@@ -40,10 +40,12 @@ export function useAutorun(
   fn: AutorunEffect,
   options?: AutorunOptions
 ): IReactionDisposer | void {
+  const fnRef = useRef(fn)
+  fnRef.current = fn
+
   useEffect(() => {
-    const disposer = autorun(fn, options)
+    const disposer = autorun(() => fnRef.current(), options)
     return () => disposer()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }
 
@@ -60,10 +62,14 @@ export function useReaction<T>(
   effect: ReactionEffect<T>,
   options?: ReactionOptions
 ): IReactionDisposer | void {
+
   useEffect(() => {
-    const disposer = reaction(expression, effect, options)
+    const disposer = reaction(
+      () => expression(),
+      (value, prevValue, disposer) => effect(value, prevValue, disposer),
+      options
+    )
     return () => disposer()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 }
 ```

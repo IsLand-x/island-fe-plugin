@@ -14,7 +14,7 @@ Define consistent patterns for organizing content within a single file. This inc
 
 ## Rules
 
-- **Default export**: Each file must have exactly one default export (component or store)
+- **Default export**: Each component file / store file can only have 1 component, and must use default export.
 - **Single component per file**: Each `.tsx` file can only contain one component
 - **No props destructuring in parameters**: Do NOT destructure props in function parameters
 - **Named exports for types**: Use named exports only for TypeScript types, interfaces, and secondary utilities
@@ -54,7 +54,7 @@ export default UserCard
 ### Store File Pattern
 
 ```tsx
-// stores/UserStore.ts
+// stores/user-store.ts
 import { makeAutoObservable } from 'mobx'
 import type { RootStore } from './RootStore'
 
@@ -144,6 +144,13 @@ const UserCard = ({ userId, title }: UserCardProps) => {
   return <div>{title}</div>
 }
 
+// ❌ Export component using named export.
+export const UserCard = ({ userId, title }: UserCardProps) => {
+  // Avoid: destructuring in parameter makes it hard to track MobX observables
+  return <div>{title}</div>
+}
+
+
 // ❌ Multiple components in one file
 const Header = () => <header>...</header>
 const Footer = () => <footer>...</footer>
@@ -205,8 +212,3 @@ const UserCard: FC<UserCardProps> = (props) => {
 
 export default UserCard
 ```
-
-## Reference
-
-- [ES6 Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)
-- [TypeScript Module Resolution](https://www.typescriptlang.org/docs/handbook/module-resolution.html)

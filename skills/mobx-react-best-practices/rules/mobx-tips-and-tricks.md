@@ -86,6 +86,8 @@ get sortedItems() {
 ### Dynamic Properties
 
 ```tsx
+import { makeAutoObservable, observable } from 'mobx'
+
 class DynamicStore {
   data: Record<string, any> = {}
 

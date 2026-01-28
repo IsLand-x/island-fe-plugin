@@ -23,6 +23,8 @@ Use `get` computed properties for values that are derived from observable state.
 ### Basic Computed
 
 ```tsx
+import { makeAutoObservable } from 'mobx'
+
 class TodoStore {
   todos: Todo[] = []
   filter: 'all' | 'active' | 'completed' = 'all'
@@ -61,6 +63,8 @@ class TodoStore {
 ### Computed with Transformations
 
 ```tsx
+import { makeAutoObservable } from 'mobx'
+
 class UserStore {
   users: User[] = []
   sortBy: 'name' | 'date' = 'name'

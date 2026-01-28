@@ -5,6 +5,8 @@ description: MobX React best practices for state management, store patterns, and
 
 # MobX React Best Practices
 
+**Before codegen / review / architecture design, MUST LOAD AND FOLLOW ALL THE RULES**.
+
 ## Requirements
 
 This skill is designed for **MobX 6+** with the following dependencies:

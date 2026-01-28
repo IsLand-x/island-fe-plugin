@@ -22,6 +22,8 @@ When modifying observable state after an async operation (like an API call), wra
 ### Using runInAction
 
 ```tsx
+import { makeAutoObservable, runInAction } from 'mobx'
+
 class UserStore {
   users: User[] = []
   isLoading = false

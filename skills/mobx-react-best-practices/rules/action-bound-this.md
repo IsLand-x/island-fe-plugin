@@ -23,6 +23,8 @@ Use `autoBind: true` in `makeAutoObservable` to automatically bind `this` for al
 ### With autoBind (Recommended)
 
 ```tsx
+import { makeAutoObservable } from 'mobx'
+
 class UserStore {
   rootStore: RootStore
   users: User[] = []
@@ -48,6 +50,8 @@ class UserStore {
 ### With Arrow Functions
 
 ```tsx
+import { makeAutoObservable } from 'mobx'
+
 class TodoStore {
   todos: Todo[] = []
 

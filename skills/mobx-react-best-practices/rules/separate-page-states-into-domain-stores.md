@@ -6,7 +6,7 @@ impactDescription: organize page states into domain stores with RootStore patter
 tags: mobx, domain-store, root-store, architecture, store-pattern, dependency-injection
 ---
 
-# Separate Page States into Domain Stores
+## Separate Page States into Domain Stores
 
 **Impact: HIGH** - organize page states into domain stores with RootStore pattern
 
@@ -24,9 +24,10 @@ Create a `RootStore` that instantiates all domain stores. Use `DepsStore` to gat
 
 ### 1. Define DepsStore
 
-```tsx
-// stores/deps.ts
+```ts
+// src/pages/{Domain}/{Page}/stores/deps-store.ts
 import { useHistory, useParams, useLocation } from 'react-router'
+import { useLocalStore } from 'mobx-react-lite'
 
 export const useCreateDepsStore = () => {
   // List all the external states.
@@ -56,8 +57,10 @@ export type DepsStore = ReturnType<typeof useCreateDepsStore>
 
 ### 2. Define Domain Stores
 
-```tsx
-// stores/UserStore.ts
+```ts
+// src/pages/{Domain}/{Page}/stores/user-store.ts
+import { makeAutoObservable, runInAction } from 'mobx'
+
 export class UserStore {
   rootStore: RootStore
   users: User[] = []
@@ -80,7 +83,7 @@ export class UserStore {
     })
   }
 
-  goToProfile = (userId: string) => { // should use arrow function to bind this.
+  goToProfile = (userId: string) => {
     // Access deps through rootStore
     this.rootStore.depsStore.history.push(`/users/${userId}`)
   }
@@ -91,7 +94,7 @@ export class UserStore {
   }
 }
 
-// stores/TodoStore.ts
+// stores/todo-store.ts
 export class TodoStore {
   rootStore: RootStore
   todos: Todo[] = []
@@ -105,7 +108,7 @@ export class TodoStore {
     await this.loadTodos()
   }
 
-   loadTodos = async () => {
+  loadTodos = async () => {
     this.todos = await api.fetchTodos()
   }
 
@@ -123,8 +126,10 @@ export class TodoStore {
 
 ### 3. Define RootStore
 
-```tsx
-// stores/RootStore.ts
+```ts
+// src/pages/{Domain}/{Page}/stores/root-store.ts
+import { makeAutoObservable } from 'mobx'
+
 export class RootStore {
   depsStore: DepsStore
   userStore: UserStore
@@ -145,12 +150,14 @@ export class RootStore {
 }
 ```
 
-### 4. Glue Layer Hook
+### 4. Glue Layer
 
 ```tsx
-// stores/useCreateRootStore.ts
-import { RootStore } from './RootStore'
-import { useCreateDepsStore } from './DepsStore'
+// src/pages/{Domain}/{Page}/stores/index.tsx
+import { useState, useEffect, createContext, useContext, ReactNode } from 'react'
+import { observer } from 'mobx-react-lite'
+import { RootStore } from './root-store'
+import { useCreateDepsStore } from './deps-store'
 
 export const useCreateRootStore = () => {
   const depsStore = useCreateDepsStore()
@@ -162,13 +169,21 @@ export const useCreateRootStore = () => {
 
   return store
 }
-```
 
-### 5. Provide and Consume
-
-```tsx
-// stores/RootStoreContext.tsx
 export const RootStoreContext = createContext<RootStore | null>(null)
+
+/**
+ * Provider component for RootStore
+ */
+export const RootStoreProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const store = useCreateRootStore()
+
+  return (
+    <RootStoreContext.Provider value={store}>
+      {children}
+    </RootStoreContext.Provider>
+  )
+}
 
 export const useRootStore = () => {
   const store = useContext(RootStoreContext)
@@ -176,19 +191,37 @@ export const useRootStore = () => {
   return store
 }
 
-// Helper hooks for domain stores
+
 export const useUserStore = () => useRootStore().userStore
 export const useTodoStore = () => useRootStore().todoStore
 export const useDepsStore = () => useRootStore().depsStore
 
-// App.tsx
-const App = () => {
-  const store = useCreateRootStore()
+```
 
+### 5. Consume
+
+```tsx
+// src/pages/{Domain}/{Page}/index.tsx
+import { observer } from 'mobx-react-lite'
+import { RootStoreProvider } from './stores'
+
+const PageContent = observer(() => {
+  // Use store hooks here
   return (
-    <RootStoreContext.Provider value={store}>
-      <Routes />
-    </RootStoreContext.Provider>
+    <div>
+      {/** Business component */}
+      <Header />
+      <Body />
+      <Footer />
+    </div>
+  )
+})
+
+export default function Page() {
+  return (
+    <RootStoreProvider>
+      <PageContent />
+    </RootStoreProvider>
   )
 }
 ```
@@ -196,7 +229,10 @@ const App = () => {
 ### 6. Use in Components
 
 ```tsx
-// pages/UserProfile.tsx
+// src/pages/{Domain}/{Page}/components/UserProfile.tsx
+import { observer } from 'mobx-react-lite'
+import { useUserStore } from '../stores'
+
 const UserProfile = observer(() => {
   const userStore = useUserStore()
 
@@ -205,7 +241,9 @@ const UserProfile = observer(() => {
   return (
     <div>
       <h1>{userStore.currentUser.name}</h1>
-      <button onClick={() => goToProfile(userStore.currentUser.id)}>View Profile</button>
+      <button onClick={() => userStore.goToProfile(userStore.currentUser!.id)}>
+        View Profile
+      </button>
     </div>
   )
 })
@@ -235,13 +273,13 @@ class TodoStore {
 
 ## When to Use
 
-| Scenario                                     | Recommendation                         |
-| -------------------------------------------- | -------------------------------------- |
-| Store needs external state like router/hooks | Access via `rootStore.depsStore`       |
-| Store needs other stores                     | Access via `rootStore.xxxStore`        |
-| Store initialization                         | Implement `async init()` method        |
-| Init coordination                            | RootStore's `init` calls domain `init` |
-| Unit testing                                 | Create `new RootStore(mockDepsStore)`  |
+| Scenario | Recommendation |
+| --------- | -------------- |
+| Store needs external state like router/hooks | Access via `rootStore.depsStore` |
+| Store needs other stores | Access via `rootStore.xxxStore` |
+| Store initialization | Implement `async init()` method |
+| Init coordination | RootStore's `init` calls domain `init` |
+| Unit testing | Create `new RootStore(mockDepsStore)` |
 
 ## Reference
 
