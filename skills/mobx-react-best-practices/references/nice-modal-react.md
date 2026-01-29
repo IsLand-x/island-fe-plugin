@@ -249,6 +249,24 @@ export const UserEditModal = create(
 
 `show()` can be called from anywhere — components, stores, or event handlers — depending on your project's patterns.
 
+### 6. Hide After Resolve/Reject
+
+When the modal completes its purpose (user confirms, submits, or cancels), call `modal.hide()` after `modal.resolve()` or `modal.reject()` to close the modal:
+
+```tsx
+// Good: hide after resolve/reject
+const handleOk = async () => {
+  await saveData();
+  modal.resolve({ success: true });
+  modal.hide();  // Close the modal
+};
+
+const handleCancel = () => {
+  modal.reject('cancelled');
+  modal.hide();  // Close the modal
+};
+```
+
 ## Key Takeaways
 
 1. **Recommended** — Use nice-modal-react for all modal management
