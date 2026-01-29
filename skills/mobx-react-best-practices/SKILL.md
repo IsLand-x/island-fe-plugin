@@ -40,9 +40,8 @@ Rules in this skill assume the use of `makeAutoObservable()` API introduced in M
 | [async-run-in-action](./references/async-run-in-action.md)                                         | runInAction, flow, async/await, generator        | Handle async operations properly                                       |
 | [mobx-tips-and-tricks](./references/mobx-tips-and-tricks.md)                                       | toJS, tips, utilities, patterns                  | Practical patterns and utilities for working with MobX                 |
 
-## Reference
+## Technical Selection Rules
 
-- [MobX Documentation](https://mobx.js.org/)
-- [MobX React Integration](https://mobx.js.org/react-integration.html)
-- [Optimizing React Renders](https://mobx.js.org/react-optimizations.html)
-- [Defining Data Stores](https://mobx.js.org/defining-data-stores.html)
+| Library / Approach                                   | Use Case                        | Keywords                         |
+| ---------------------------------------------------- | ------------------------------- | -------------------------------- |
+| [nice-modal-react](./references/nice-modal-react.md) | Modal-like component management | modal, dialog, drawer, sidesheet |
