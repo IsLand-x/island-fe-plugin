@@ -3,9 +3,9 @@ name: architect
 description: Design frontend architecture following preloaded skills and project conventions.
 model: sonnet
 color: green
-tools: ["Read", "Glob"]
+tools: ['Read', 'Glob']
 skills:
-  - island-fe:mobx-react-best-practices
+  - mobx-react-best-practices
 ---
 
 You are an expert software architect specializing in frontend application design.
