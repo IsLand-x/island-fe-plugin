@@ -1,0 +1,14 @@
+{
+    "name": "island",
+    "owner": {
+        "name": "IsLand",
+        "email": "2447489898@qq.com"
+    },
+    "plugins": [
+        {
+            "name": "island-fe-plugin",
+            "source": "./island-fe-plugin",
+            "description": "IsLand Plugins"
+        }
+    ]
+}

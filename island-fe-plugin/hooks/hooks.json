@@ -1,0 +1,46 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path' | { read file_path; if echo \"$file_path\" | grep -q '\.ts$\|\.tsx$'; then npx eslint --fix \"$file_path\"; fi; }"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "terminal-notifier -message '需要您的输入确认...' -title 'Claude Code' -sender com.apple.Terminal"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "terminal-notifier -message '任务结束' -title 'Claude Code' -sender com.apple.Terminal"
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "Read|Search|Bash|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ./auto-allow.js"
+          }
+        ]
+      }
+    ]
+  }
+}
